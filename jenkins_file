@@ -1,2 +1,52 @@
 pipeline {
     agent any
+
+    environment {
+        // Assuming ENV is set as an environment variable within Jenkins or injected at runtime
+        // You could also define it here if needed for clarity
+        // ENV = 'someEnvironmentValue'
+        def REPO_URL = "https://github.com/sivapsk/jenkins_activity.git"
+        def REPO_BRANCH = "main"
+        def ENV = "siva-test"
+        def PROJECT_ID = "${(ENV.contains('test'))?'siva-test':'staging'}"
+
+    }
+
+    stages {
+        stage('Setup') {
+            steps {
+                script {
+                    // Define PROJECT_ID based on ENV
+                    // def PROJECT_ID = ENV.contains('test') ? 'testing' : (ENV.contains('prod') ? 'staging' : 'default')
+
+                    // Now use PROJECT_ID in this stage
+                    echo "PROJECT_ID environment is set to: ${PROJECT_ID}"
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Use the PROJECT_ID variable again if needed
+                    echo "Building the PROJECT_ID in environment: ${env.PROJECT_ID}"
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Example using PROJECT_ID for a conditional step
+                    if (env.PROJECT_ID == 'testing') {
+                        echo "Deploying to test server"
+                    } else if (env.PROJECT_ID == 'staging') {
+                        echo "Deploying to staging server"
+                    } else {
+                        echo "No deployment needed for default environment"
+                    }
+                }
+            }
+        }
+    }
+}
