@@ -7,7 +7,7 @@ pipeline {
         // ENV = 'someEnvironmentValue'
         def REPO_URL = "https://github.com/sivapsk/jenkins_activity.git"
         def REPO_BRANCH = "main"
-        def ENV = "siva-test"
+        // def ENV = "siva-test"
         def PROJECT_ID = "${(ENV.contains('test'))?'siva-test':'staging'}"
 
     }
